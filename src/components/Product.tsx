@@ -1,16 +1,19 @@
 import React, { memo } from 'react';
 import { ProductType } from '../context/ProductsProvider';  
-import { ReducerActionType, ReducerAction } from '../context/CartProvider';
+import { ReducerActionType, ReducerAction, CartItemType } from '../context/CartProvider';
 import Button from './Button';
+import { SiTicktick } from "react-icons/si";
+
 
 type ProductProps = {
     product: ProductType;
     isInCart: boolean;
     dispatch: React.Dispatch<ReducerAction>;
     reducerActions: ReducerActionType;
+    item?: CartItemType;
 }
 
-const Product = ({product, isInCart, dispatch, reducerActions } : ProductProps) => {
+const Product = ({product, item, isInCart, dispatch, reducerActions } : ProductProps) => {
 
   const imgUrl: string = new URL(`../images/${product.sku}.jpg`, import.meta.url).href
 
@@ -21,27 +24,43 @@ const Product = ({product, isInCart, dispatch, reducerActions } : ProductProps) 
     })
   }
 
+  function handleRemoveItem() {
+    dispatch({
+      type: reducerActions.REMOVE, 
+      payload: item
+    })
+  }
+
   return (
-    <div className='flex flex-col text-center shadow-sm h-full'>
-      <div className="flex items-center justify-center mb-6">
-        <img src={imgUrl} alt={product.name} className="w-[430px]"/>
+    <div className='flex flex-col text-left shadow-sm bg-white rounded-lg pb-2'>
+
+        <div className="relative flex items-center justify-center mb-2">
+          <img src={imgUrl} alt={product.name} className="w-[430px]"/>
+          {isInCart && 
+          <span className='text-xs font-semibold absolute top-3 right-3 flex items-center gap-x-2 bg-green-600 rounded-xl px-3 py-2 shadow text-white'>
+            <SiTicktick className='mt-0.5'/>
+            In Cart
+          </span>
+ }
+        </div>
+
+
+        <div className='p-3 flex flex-col'>
+          
+          <h2 className='text-lg font-semibold mb-1'>{product.name}</h2>
+      
+          <p className='text-gray-600 mb-4'>{product.price.toFixed(2)} Kč </p>
+
+          <Button 
+            onClick={() => isInCart ? handleRemoveItem() : handleAddToCart()}
+            color={isInCart ? "grey" : "blue"}
+            >
+              {isInCart ? "Remove from cart" : "Add to cart" }
+          </Button>
        </div>
 
+ 
 
-       <div className='p-3'>
-        <div>
-          <h2 className='text-xl font-semibold'>{product.name}</h2>
-        </div>
-        <div>
-          <p>{product.price.toFixed(2)} Kč </p>
-        </div>
-      </div>
-
-    <div className='pb-5'>
-      <Button onClick={() => handleAddToCart()} disabled={isInCart}> 
-        {isInCart ? "In cart ✅" : "Add to cart"}
-      </Button>
-    </div>
     </div>
   )
 }

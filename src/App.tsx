@@ -18,7 +18,7 @@ function App() {
           <Header view={view} setView={setView}/>
           {view === 'productList' ? <ProductList /> : <></>}
           {view === 'cart' ? <Cart /> : <></>}
-          <Footer view={view}  />
+          <Footer/>
         </Layout>
     
       </CartProvider>

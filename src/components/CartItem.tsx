@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { IoTrashBinOutline } from "react-icons/io5";
 import {CartItemType, ReducerAction, ReducerActionType  } from '../context/CartProvider';
 
 type CartItemProps = {
@@ -20,35 +21,33 @@ function CartItem({item, dispatch, reducerActions}: CartItemProps) {
     }
 
   return (
-    <li className='flex justify-between items-center border-b-1 pb-1'>
-      <div className='flex items-center gap-x-5'>
-        <div>
-          <img src={imgUrl} alt={item.name} className='w-25'/>
-        </div>
+    <tr className='border-t border-gray-200 text-left'>
 
-        <div>
-          <label> Quantity: </label>
+      <td className='w-1/8 p-4'>
+        <img src={imgUrl} alt={item.name} className='rounded'/>
+      </td>
+
+      <td className='font-semibold'>{item.name}</td>
+
+      <td className='text-gray-600'>{item.price.toFixed(2)} Kč</td>
+
+      <td>
           <select 
             value={item.quantity} 
             onChange={(e) => handleQuantityChange(e)} >
               {Array.from({length: 20}, (_, i) => i + 1 ) 
               .map( (num) => (<option value={num} key={num}> {num} </option>))}
           </select>
-          <button onClick={() => handleRemoveItem()}> ❌ </button>
-        </div>
-      </div>
+      </td>
 
+      <td className='font-semibold'>{itemTotalPrice.toFixed(2)} Kč</td>
 
-      <div className='text-right'>
-        <div>
-          Price per item: {item.price.toFixed(2)} Kč
-        </div>
-        <div>
-          Total price: {itemTotalPrice.toFixed(2)} Kč
-        </div>
-      </div>
-
-    </li>
+      <td className='pr-3'>
+        <button onClick={() => handleRemoveItem()}> 
+          <IoTrashBinOutline className='text-red-600 cursor-pointer'/>
+        </button>
+      </td>
+    </tr>
   )
 }
 
