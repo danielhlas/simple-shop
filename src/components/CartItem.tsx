@@ -58,7 +58,7 @@ function CartItem({ item, dispatch, reducerActions }: CartItemProps) {
       <td className='px-6 py-4 whitespace-nowrap text-right text-sm font-medium'>
         <button
           onClick={() => handleRemoveItem()}
-          className="text-gray-400 hover:text-red-600 transition-colors p-2 rounded-full hover:bg-red-50"
+          className="text-gray-400 hover:text-red-600 transition-colors p-2 rounded-full hover:bg-red-50 cursor-pointer"
           title="Remove item"
         >
           <IoTrashBinOutline className='text-xl' />
